@@ -54,6 +54,9 @@ function App() {
 
       <hr />
 
+      {/* Instance of List component */}
+      <List />
+      {/* second instand of List component */}
       <List />
     </div>
   );
