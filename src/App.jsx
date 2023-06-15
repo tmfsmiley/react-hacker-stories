@@ -34,13 +34,20 @@ const List = () => (
   </ul>
 );
 
-const Search = () => (
-  <div>
-    <label htmlFor="search">Search:
-      <input id="search" type="text" />
-    </label>
-  </div>
-);
+const Search = () => {
+  const handleChange = event => {
+    console.log(event);
+    console.log(event.target.value);
+  };
+
+  return (
+    <div>
+      <label htmlFor="search">Search:
+        <input id="search" type="text" onChange={handleChange} />
+      </label>
+    </div>
+  )
+  };
 
 const App = () => (
   <div>
