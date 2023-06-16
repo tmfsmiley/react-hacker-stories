@@ -21,15 +21,43 @@ const App = () => {
     },
   ];
 
+  // callback handler. gets introduced as an event handler
+  const handleSearch = (event) => {
+    // this is where it was introduced
+    console.log(event.target.value);
+  };
+
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <Search />
+
+      {/* event handler is passed as function in props to this component */}
+      <Search onSearch={handleSearch} />
+
       <hr />
-      {/* Instance of List component */}
+
       <List list={stories} />
     </div>
   );
+};
+
+const Search = (props) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+
+    // calls back to place it was introduced
+    props.onSearch(event);
+  };
+
+  return (
+    <div>
+      <label htmlFor="search">Search:
+        <input id="search" type="text" onChange={handleChange} />
+      </label>
+      <p>Searching for <strong>{searchTerm}</strong></p>
+    </div>
+  )
 };
 
 const List = (props) => (
@@ -50,22 +78,6 @@ const Item = (props) => (
     </span>
   </li>
 );
-
-const Search = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const handleChange = event => {
-    setSearchTerm(event.target.value);
-  };
-
-  return (
-    <div>
-      <label htmlFor="search">Search:
-        <input id="search" type="text" onChange={handleChange} />
-      </label>
-      <p>Searching for <strong>{searchTerm}</strong></p>
-    </div>
-  )
-};
 
 // App.propTypes = {
 //   anyProp: PropTypes.any,
