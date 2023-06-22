@@ -55,9 +55,10 @@ const Search = ({ search, onSearch }) => {
 
 const List = ({ list }) => (
   <ul>
-    {list.map((item) => (
-      // allows spreading of all key/value pairs of an object to another object. (Item, below)
-      <Item key={item.objectID} {...item} />
+    {/* Rest Operator. Separates an object from some of its properties */}
+    {list.map(( { objectID, ...item }) => (
+      // Spread operator. Spreads all key/value pairs of an object to another object. (Item below)
+      <Item key={objectID} {...item} />
     ))}
   </ul>
 );
