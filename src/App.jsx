@@ -21,44 +21,33 @@ const App = () => {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = React.useState('');
+
   // callback handler. gets introduced as an event handler
   const handleSearch = (event) => {
-    // this is where it was introduced
-    console.log(event.target.value);
+    setSearchTerm(event.target.value);
   };
+
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
-
-      {/* event handler is passed as function in props to this component */}
       <Search onSearch={handleSearch} />
-
       <hr />
-
-      <List list={stories} />
+      <List list={searchedStories} />
     </div>
   );
 };
 
-const Search = (props) => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const handleChange = event => {
-    setSearchTerm(event.target.value);
-
-    // calls back to place it was introduced
-    props.onSearch(event);
-  };
-
-  return (
-    <div>
-      <label htmlFor="search">Search:
-        <input id="search" type="text" onChange={handleChange} />
-      </label>
-      <p>Searching for <strong>{searchTerm}</strong></p>
-    </div>
-  )
-};
+const Search = (props) => (
+  <div>
+    <label htmlFor="search">Search: </label>
+    <input id="search" type="text" onChange={props.onSearch} />
+  </div>
+);
 
 const List = (props) => (
   <ul>
@@ -70,14 +59,13 @@ const List = (props) => (
 
 const Item = (props) => (
   <li>
-    <span>
-      <a href={props.item.url}>{props.item.title}</a>
-      <span>{props.item.author}</span>
-      <span>{props.item.num_comments}</span>
-      <span>{props.item.points}</span>
-    </span>
+    <span><a href={props.item.url}>{props.item.title}</a></span>
+    <span>{props.item.author}</span>
+    <span>{props.item.num_comments}</span>
+    <span>{props.item.points}</span>
   </li>
 );
+
 
 // App.propTypes = {
 //   anyProp: PropTypes.any,
