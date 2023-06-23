@@ -21,7 +21,13 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState('React');
+  const [searchTerm, setSearchTerm] = React.useState(
+    localStorage.getItem('search') || 'React'
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem('search', searchTerm);
+  }, [searchTerm]);
 
   // callback handler. gets introduced as an event handler
   const handleSearch = (event) => {
@@ -42,33 +48,32 @@ const App = () => {
   );
 };
 
-const Search = ({ search, onSearch }) => {
+const Search = ({ search, onSearch }) => (
   <div>
-    <label htmlFor="search">Search: </label>
-    <input
-      id="search"
-      type="text"
-      value={search}
-      onChange={onSearch} />
+    <label htmlFor="search">Search:
+      <input
+        id="search"
+        type="text"
+        value={search}
+        onChange={onSearch} />
+    </label>
   </div>
-};
+);
 
 const List = ({ list }) => (
   <ul>
-    {/* Rest Operator. Separates an object from some of its properties */}
-    {list.map(( { objectID, ...item }) => (
-      // Spread operator. Spreads all key/value pairs of an object to another object. (Item below)
-      <Item key={objectID} {...item} />
+    {list.map((item) => (
+      <Item key={item.objectID} item={item} />
     ))}
   </ul>
 );
 
-const Item = ({ title, url, author, num_comments, points }) => (
+const Item = ({ item }) => (
   <li>
-    <span><a href={url}>{title}</a></span>
-    <span>{author}</span>
-    <span>{num_comments}</span>
-    <span>{points}</span>
+    <span><a href={item.url}>{item.title}</a></span>
+    <span>{item.author}</span>
+    <span>{item.num_comments}</span>
+    <span>{item.points}</span>
   </li>
 );
 
