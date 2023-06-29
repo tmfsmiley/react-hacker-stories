@@ -55,6 +55,7 @@ const App = () => {
         id="search"
         label="Search"
         value={searchTerm}
+        isFocused
         onInputChange={handleSearch}
       >
         <strong>Search:</strong>
@@ -71,19 +72,30 @@ const InputWithLabel = ({
   value,
   type='text',
   onInputChange,
+  isFocused,
   children,
-}) => (
-  <>
+}) => {
+  const inputRef = React.useRef();
+  React.useEffect(() => {
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
+  return (
+    <>
     <label htmlFor={id}>{children}&nbsp;
       <input
         id={id}
         type={type}
         value={value}
+        // this is shorthand for 'autoFocus={true}'. everything set to true can be written like this
+        autoFocus={isFocused}
         onChange={onInputChange}
       />
     </label>
   </>
-);
+  );
+};
 
 const List = ({ list }) => (
   <ul>
