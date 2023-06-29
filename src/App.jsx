@@ -56,7 +56,9 @@ const App = () => {
         label="Search"
         value={searchTerm}
         onInputChange={handleSearch}
-      />
+      >
+        <strong>Search:</strong>
+      </InputWithLabel>
 
       <hr />
       <List list={searchedStories} />
@@ -66,13 +68,13 @@ const App = () => {
 
 const InputWithLabel = ({
   id,
-  label,
   value,
-  type = 'text',
-  onInputChange
+  type='text',
+  onInputChange,
+  children,
 }) => (
   <>
-    <label htmlFor={id}>{label}&nbsp;
+    <label htmlFor={id}>{children}&nbsp;
       <input
         id={id}
         type={type}
@@ -108,7 +110,7 @@ const Item = ({ item }) => (
 //   stringProp: PropTypes.string,
 //   functionProp: PropTypes.func,
 //   arrayProp: PropTypes.array,
-//   objectPerop: PropTypes.object,
+//   objectProp: PropTypes.object,
 //   symbolProp: PropTypes.symbol,
 //   children: PropTypes.any,
 //   onClickOut: PropTypes.func,
