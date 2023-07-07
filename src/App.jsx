@@ -2,18 +2,6 @@ import * as React from 'react';
 import axios from 'axios';
 // import PropTypes from 'prop-types';
 
-const useStorageState = (key, initialState) => {
-  const [value, setValue] = React.useState(
-    localStorage.getItem(key) || initialState
-  );
-
-  React.useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [value, key]);
-
-  return [value, setValue];
-};
-
 const storiesReducer = (state, action) => {
   switch (action.type) {
     case 'STORIES_FETCH_INIT':
@@ -45,6 +33,18 @@ const storiesReducer = (state, action) => {
     default:
       throw new Error();
   }
+};
+
+const useStorageState = (key, initialState) => {
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
 };
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
@@ -101,27 +101,6 @@ const App = () => {
     event.preventDefault();
   };
 
-  const SearchForm = ({
-    searchTerm,
-    onSearchInput,
-    onSearchSubmit,
-  }) => (
-    <form onSubmit={onSearchSubmit}>
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        isFocused
-        onInputChange={onSearchInput}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button type="submit" disabled={!searchTerm}>
-        Submit
-      </button>
-    </form>
-  );
-
   return (
     <div>
       <h1>My Hacker Stories</h1>
@@ -144,6 +123,27 @@ const App = () => {
     </div>
   );
 };
+
+const SearchForm = ({
+  searchTerm,
+  onSearchInput,
+  onSearchSubmit,
+}) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLabel
+      id="search"
+      value={searchTerm}
+      isFocused
+      onInputChange={onSearchInput}
+    >
+      <strong>Search:</strong>
+    </InputWithLabel>
+
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+  </form>
+);
 
 const InputWithLabel = ({
   id,
